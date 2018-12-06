@@ -7,8 +7,6 @@ package Vista;
 
 import Controlador.AccesoDatos;
 import Modelo.Peliculas;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableColumnModel;
 
 
 public class Principal extends javax.swing.JFrame {
@@ -31,13 +29,6 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         form_registro = new javax.swing.JFrame();
-        form_listado = new javax.swing.JFrame();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        grilla = new javax.swing.JTable();
-        cbofiltros = new javax.swing.JComboBox<>();
-        bntfiltrar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        buttonGroup1 = new javax.swing.ButtonGroup();
         btnbus = new javax.swing.JButton();
         txtcod = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -56,21 +47,139 @@ public class Principal extends javax.swing.JFrame {
         bntreg = new javax.swing.JButton();
         btnmod = new javax.swing.JButton();
         btneli = new javax.swing.JButton();
+        form_listado = new javax.swing.JFrame();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        grilla = new javax.swing.JTable();
+        cbofiltros = new javax.swing.JComboBox<>();
+        bntfiltrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        item_registro = new javax.swing.JMenuItem();
+        item_listado = new javax.swing.JMenuItem();
+        item_salir = new javax.swing.JMenuItem();
+
+        btnbus.setText("Buscar");
+
+        jLabel2.setText("Codigo");
+
+        jLabel3.setText("Max 6 caracteres");
+
+        jLabel4.setText("Nombre");
+
+        jLabel5.setText("Max 35 caracteres");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione genero", "Accion", "Aventura", "Animacion", "Comedia", "Documental", "Drama", "Romance", "Sci-fy", "Terror" }));
+
+        jLabel6.setText("Genero");
+
+        jLabel7.setText("Clasificacion");
+
+        buttonGroup1.add(rbntod);
+        rbntod.setText("Todo espectador");
+
+        buttonGroup1.add(rbn15);
+        rbn15.setText("R+15");
+
+        buttonGroup1.add(rbn18);
+        rbn18.setText("R+18");
+
+        jLabel8.setText("Fecha de estreno");
+
+        bntreg.setText("Almacenar Datos");
+
+        btnmod.setText("Modificar Datos");
+
+        btneli.setText("Eliminar Datos");
 
         javax.swing.GroupLayout form_registroLayout = new javax.swing.GroupLayout(form_registro.getContentPane());
         form_registro.getContentPane().setLayout(form_registroLayout);
         form_registroLayout.setHorizontalGroup(
-            form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(form_registroLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(form_registroLayout.createSequentialGroup()
+                        .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(form_registroLayout.createSequentialGroup()
+                                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
+                                    .addComponent(txtnom, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(form_registroLayout.createSequentialGroup()
+                                .addComponent(txtcod)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnbus)
+                            .addComponent(jLabel5))
+                        .addContainerGap())
+                    .addGroup(form_registroLayout.createSequentialGroup()
+                        .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(form_registroLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbntod)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbn15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbn18))
+                            .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnmod, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, form_registroLayout.createSequentialGroup()
+                                    .addGap(4, 4, 4)
+                                    .addComponent(bntreg, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(form_registroLayout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         form_registroLayout.setVerticalGroup(
             form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(form_registroLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnbus)
+                    .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(rbntod)
+                    .addComponent(rbn15)
+                    .addComponent(rbn18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bntreg, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnmod, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         form_listado.setTitle("Listado de Peliculas");
@@ -146,52 +255,30 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnbus.setText("Buscar");
-
-        jLabel2.setText("Codigo");
-
-        jLabel3.setText("Max 6 caracteres");
-
-        jLabel4.setText("Nombre");
-
-        jLabel5.setText("Max 35 caracteres");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione genero", "Accion", "Aventura", "Animacion", "Comedia", "Documental", "Drama", "Romance", "Sci-fy", "Terror" }));
-
-        jLabel6.setText("Genero");
-
-        jLabel7.setText("Clasificacion");
-
-        buttonGroup1.add(rbntod);
-        rbntod.setText("Todo espectador");
-
-        buttonGroup1.add(rbn15);
-        rbn15.setText("R+15");
-
-        buttonGroup1.add(rbn18);
-        rbn18.setText("R+18");
-
-        jLabel8.setText("Fecha de estreno");
-
-        bntreg.setText("Almacenar Datos");
-
-        btnmod.setText("Modificar Datos");
-
-        btneli.setText("Eliminar Datos");
-
+        Archivo.setMnemonic('a');
         Archivo.setText("Archivo");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem1.setText("Registro");
-        Archivo.add(jMenuItem1);
+        item_registro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK));
+        item_registro.setText("Registro");
+        item_registro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_registroActionPerformed(evt);
+            }
+        });
+        Archivo.add(item_registro);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem2.setText("Listado");
-        Archivo.add(jMenuItem2);
+        item_listado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK));
+        item_listado.setText("Listado");
+        item_listado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                item_listadoActionPerformed(evt);
+            }
+        });
+        Archivo.add(item_listado);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem3.setText("Salir");
-        Archivo.add(jMenuItem3);
+        item_salir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        item_salir.setText("Salir");
+        Archivo.add(item_salir);
 
         jMenuBar1.add(Archivo);
 
@@ -200,94 +287,30 @@ public class Principal extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
-                                    .addComponent(txtnom, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtcod)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnbus)
-                            .addComponent(jLabel5))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbntod)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbn15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbn18))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnmod, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGap(4, 4, 4)
-                                    .addComponent(bntreg, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 396, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnbus)
-                    .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtnom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(rbntod)
-                    .addComponent(rbn15)
-                    .addComponent(rbn18))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bntreg, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnmod, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 317, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void item_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_registroActionPerformed
+        form_registro.setSize(480, 360);
+        form_registro.setLocationRelativeTo(this);
+        form_registro.setAlwaysOnTop(true);
+        form_registro.setVisible(true);
+    }//GEN-LAST:event_item_registroActionPerformed
+
+    private void item_listadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_listadoActionPerformed
+        form_listado.setSize(768, 576);
+        form_listado.setLocationRelativeTo(this);
+        form_listado.setAlwaysOnTop(true);
+        form_listado.setVisible(true);
+    }//GEN-LAST:event_item_listadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,6 +359,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JFrame form_listado;
     private javax.swing.JFrame form_registro;
     private javax.swing.JTable grilla;
+    private javax.swing.JMenuItem item_listado;
+    private javax.swing.JMenuItem item_registro;
+    private javax.swing.JMenuItem item_salir;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -346,9 +372,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JRadioButton rbn15;

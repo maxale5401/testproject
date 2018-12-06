@@ -1,6 +1,6 @@
 package Controlador;
-import java.sql.*;
 import Modelo.Peliculas;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class AccesoDatos {
@@ -126,6 +126,7 @@ public class AccesoDatos {
             rs = st.executeQuery(sql);
             st.close();
             desconexion();
+            return p;
         }catch(Exception e){
             return null;
         }
