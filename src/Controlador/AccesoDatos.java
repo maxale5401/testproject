@@ -14,7 +14,7 @@ public class AccesoDatos {
             String url = "jdbc:mysql://localhost:3306/peliculas?zeroDateTimeBehavior=convertToNull";
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url, "root", "");
-        }catch(Exception e){
+        }catch(ClassNotFoundException | SQLException e){
             System.err.println("error al conectar con la BD");
         }
         
@@ -95,7 +95,7 @@ public class AccesoDatos {
         try{
             conexion();
             st = con.createStatement();
-            String sql = "select from peliculas where cod_pel='"+cod+"'";
+            String sql = "select * from peliculas where cod_pel='"+cod+"'";
             rs = st.executeQuery(sql);
             if (rs.next()) {
                 cod = rs.getString("cod_pel");
