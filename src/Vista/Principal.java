@@ -21,17 +21,67 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         actualizarGrilla();
+        this.setLocationRelativeTo(null);
     }
 
-    private void actualizarGrilla() {
+    public void actualizarGrilla() {
         DefaultTableModel modelo = (DefaultTableModel) grilla.getModel();
         int filas = modelo.getRowCount();
         for (int i = 0; i < filas; i++) {
             modelo.removeRow(0);
         }
-        ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
-        lispel = a.listarPelicula();
+        if (cbofiltros.getSelectedItem() == "Sin filtro") {
+            lispel = a.listarPelicula();
+        } else {
+            if (cbofiltros.getSelectedItem() == "Accion") {
+                lispel = a.filtraracc();
+            } else {
+                if (cbofiltros.getSelectedItem() == "Aventura") {
+                    lispel = a.filtrarave();
+                } else {
+                    if (cbofiltros.getSelectedItem() == "Animacion") {
+                        lispel = a.filtrarani();
+                    } else {
+                        if (cbofiltros.getSelectedItem() == "Comedia") {
+                            lispel = a.filtrarcom();
+                        } else {
+                            if (cbofiltros.getSelectedItem() == "Documental") {
+                                lispel = a.filtrardoc();
+                            } else {
+                                if (cbofiltros.getSelectedItem() == "Drama") {
+                                    lispel = a.filtrardram();
+                                } else {
+                                    if (cbofiltros.getSelectedItem() == "Romance") {
+                                        lispel = a.filtrarrom();
+                                    } else {
+                                        if (cbofiltros.getSelectedItem() == "Sci-fy") {
+                                            lispel = a.filtrarsci();
+                                        } else {
+                                            if (cbofiltros.getSelectedItem() == "Terror") {
+                                                lispel = a.filtrarter();
+                                            } else {
+                                                if (cbofiltros.getSelectedItem() == "Todo espectador") {
+                                                    lispel = a.filtrartod();
+                                                } else {
+                                                    if (cbofiltros.getSelectedItem() == "R+15") {
+                                                        lispel = a.filtrarado();
+                                                    } else {
+                                                        lispel = a.filtraradu();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         Object datos[] = new Object[5];
+        int totl = 0;//para las listadas segun el filtro
+        float prom = 0;// para el promedio
         for (int i = 0; i < lispel.size(); i++) {
             p = lispel.get(i);
             datos[0] = p.getCodigo();
@@ -40,8 +90,61 @@ public class Principal extends javax.swing.JFrame {
             datos[3] = p.getClasificacion();
             datos[4] = p.getFecha();
             modelo.addRow(datos);
+            totl++;
+            prom = totl / lispel.size();//promedio de peliculas listadas en relacion al total de registros
         }
         grilla.setModel(modelo);
+        lablis.setText(Integer.toString(totl));
+        labtotr.setText(Integer.toString(lispel.size()));
+        labpro.setText(Float.toString(prom));
+    }
+
+    public void validar() {
+        cod = txtcod.getText();
+        p = a.consultarPelicula(cod);
+        if (p != null) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Pelicula encontrada");
+            txtnom.setText(p.getNombre());
+            cbogen.setSelectedItem(p.getGenero());
+            if (p.getClasificacion().equalsIgnoreCase("Todo publico")) {
+                rbntod.setSelected(true);
+            } else {
+                if (p.getClasificacion().equalsIgnoreCase("R+15")) {
+                    rbn15.setSelected(true);
+                } else {
+                    rbn18.setSelected(true);
+                }
+            }
+            txtfec.setText(String.valueOf(p.getFecha()));
+            txtcod.setEnabled(true);
+            txtnom.setEnabled(true);
+            cbogen.setEnabled(true);
+            rbntod.setEnabled(true);
+            rbn15.setEnabled(true);
+            rbn18.setEnabled(true);
+            txtfec.setEnabled(true);
+            btneli.setEnabled(true);
+            btnmod.setEnabled(true);
+            btnreg.setEnabled(false);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(form_registro, "pelicula no encontrada, registro habilitado");
+            txtnom.setText("");
+            txtnom.setEnabled(true);
+            cbogen.setSelectedIndex(0);
+            cbogen.setEnabled(true);
+            rbntod.setSelected(false);
+            rbntod.setEnabled(true);
+            rbn15.setSelected(false);
+            rbn15.setEnabled(true);
+            rbn18.setSelected(false);
+            rbn18.setEnabled(true);
+            txtfec.setText("");
+            txtfec.setEnabled(true);
+            btneli.setEnabled(false);
+            btnmod.setEnabled(false);
+            btnreg.setEnabled(true);
+
+        }
     }
 
     /**
@@ -79,12 +182,20 @@ public class Principal extends javax.swing.JFrame {
         cbofiltros = new javax.swing.JComboBox<>();
         bntfiltrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        labtotr = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lablis = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        labpro = new javax.swing.JLabel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jMenuBar1 = new javax.swing.JMenuBar();
         Archivo = new javax.swing.JMenu();
         item_registro = new javax.swing.JMenuItem();
         item_listado = new javax.swing.JMenuItem();
         item_salir = new javax.swing.JMenuItem();
+
+        form_registro.setTitle("Formulario de Peliculas");
 
         btnbus.setText("Buscar");
         btnbus.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +204,11 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        txtcod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcodActionPerformed(evt);
+            }
+        });
         txtcod.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtcodKeyTyped(evt);
@@ -105,31 +221,66 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel4.setText("Nombre");
 
+        txtnom.setEnabled(false);
+        txtnom.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtnomKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Max 35 caracteres");
 
         cbogen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione genero", "Accion", "Aventura", "Animacion", "Comedia", "Documental", "Drama", "Romance", "Sci-fy", "Terror" }));
+        cbogen.setEnabled(false);
 
         jLabel6.setText("Genero");
 
         jLabel7.setText("Clasificacion");
 
         buttonGroup1.add(rbntod);
-        rbntod.setSelected(true);
         rbntod.setText("Todo espectador");
+        rbntod.setEnabled(false);
 
         buttonGroup1.add(rbn15);
         rbn15.setText("R+15");
+        rbn15.setEnabled(false);
 
         buttonGroup1.add(rbn18);
         rbn18.setText("R+18");
+        rbn18.setEnabled(false);
 
-        jLabel8.setText("Fecha de estreno");
+        jLabel8.setText("Año de estreno");
+
+        txtfec.setEnabled(false);
+        txtfec.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfecKeyTyped(evt);
+            }
+        });
 
         btnreg.setText("Almacenar Datos");
+        btnreg.setEnabled(false);
+        btnreg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnregActionPerformed(evt);
+            }
+        });
 
         btnmod.setText("Modificar Datos");
+        btnmod.setEnabled(false);
+        btnmod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmodActionPerformed(evt);
+            }
+        });
 
         btneli.setText("Eliminar Datos");
+        btneli.setEnabled(false);
+        btneli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliActionPerformed(evt);
+            }
+        });
 
         labest.setText("...");
 
@@ -147,19 +298,19 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(form_registroLayout.createSequentialGroup()
+                                .addComponent(txtcod, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnbus)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(form_registroLayout.createSequentialGroup()
                                 .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(cbogen, javax.swing.GroupLayout.Alignment.LEADING, 0, 170, Short.MAX_VALUE)
                                     .addComponent(txtnom, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(form_registroLayout.createSequentialGroup()
-                                .addComponent(txtcod)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnbus)
-                            .addComponent(jLabel5))
-                        .addContainerGap())
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(form_registroLayout.createSequentialGroup()
                         .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -179,9 +330,9 @@ public class Principal extends javax.swing.JFrame {
                                 .addGroup(form_registroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(labest)
                                     .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 89, Short.MAX_VALUE))))
             .addGroup(form_registroLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtfec, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +374,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(btneli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labest)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         form_listado.setTitle("Listado de Peliculas");
@@ -238,7 +389,7 @@ public class Principal extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -261,9 +412,14 @@ public class Principal extends javax.swing.JFrame {
             grilla.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        cbofiltros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin filtro", "Accion", "Aventura", "Animacion", "Comedia", "Documental", "Drama", "Romance", "Sci-fy", "Terror" }));
+        cbofiltros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin filtro", "Accion", "Aventura", "Animacion", "Comedia", "Documental", "Drama", "Romance", "Sci-fy", "Terror", "Todo espectador", "R+15", "R+18" }));
 
         bntfiltrar.setText("Filtrar");
+        bntfiltrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bntfiltrarMouseClicked(evt);
+            }
+        });
         bntfiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntfiltrarActionPerformed(evt);
@@ -272,22 +428,51 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setText("Filtrar por Genero:");
 
+        jLabel9.setText("Total de Registros:");
+
+        labtotr.setText("0");
+
+        jLabel10.setText("Suma de Registros Listados:");
+
+        lablis.setText("0");
+
+        jLabel11.setText("Promedio de Peliculas Listadas:");
+
+        labpro.setText("0");
+
         javax.swing.GroupLayout form_listadoLayout = new javax.swing.GroupLayout(form_listado.getContentPane());
         form_listado.getContentPane().setLayout(form_listadoLayout);
         form_listadoLayout.setHorizontalGroup(
             form_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, form_listadoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
             .addGroup(form_listadoLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jLabel1)
-                .addGap(195, 195, 195)
-                .addComponent(cbofiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bntfiltrar)
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addGroup(form_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, form_listadoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(form_listadoLayout.createSequentialGroup()
+                        .addGroup(form_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(form_listadoLayout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(jLabel1)
+                                .addGap(195, 195, 195)
+                                .addComponent(cbofiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bntfiltrar))
+                            .addGroup(form_listadoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labtotr)
+                                .addGap(165, 165, 165)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lablis)
+                                .addGap(146, 146, 146)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labpro)))
+                        .addGap(0, 69, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         form_listadoLayout.setVerticalGroup(
             form_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,7 +483,15 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(bntfiltrar)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addGroup(form_listadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(labtotr)
+                    .addComponent(jLabel10)
+                    .addComponent(lablis)
+                    .addComponent(jLabel11)
+                    .addComponent(labpro))
                 .addContainerGap())
         );
 
@@ -354,17 +547,18 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void item_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_registroActionPerformed
-        form_registro.setSize(640, 480);
+        form_registro.setSize(470, 410);
         form_registro.setLocationRelativeTo(this);
-        form_registro.setAlwaysOnTop(true);
+        form_registro.setAlwaysOnTop(false);
         form_registro.setVisible(true);
     }//GEN-LAST:event_item_registroActionPerformed
 
     private void item_listadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_listadoActionPerformed
-        form_listado.setSize(768, 576);
+        form_listado.setSize(920, 576);
         form_listado.setLocationRelativeTo(this);
-        form_listado.setAlwaysOnTop(true);
+        form_listado.setAlwaysOnTop(false);
         form_listado.setVisible(true);
+        actualizarGrilla();
     }//GEN-LAST:event_item_listadoActionPerformed
 
     private void item_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_salirActionPerformed
@@ -372,74 +566,199 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_item_salirActionPerformed
 
     private void bntfiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntfiltrarActionPerformed
-        fil = cbofiltros.getSelectedItem().toString();
-        if (fil.equalsIgnoreCase("Sin filtro")) {
-            actualizarGrilla();
-        } else {
-            DefaultTableModel modelo = (DefaultTableModel) grilla.getModel();
-            int filas = modelo.getRowCount();
-            for (int i = 0; i < filas; i++) {
-                modelo.removeRow(0);
-            }
-            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
-            lispel = a.listarPelicula();
-            Object datos[] = new Object[5];
-            for (int i = 0; i < lispel.size(); i++) {
-                if (p.getGenero().equalsIgnoreCase(fil)) {
-                    p = lispel.get(i);
-                    datos[0] = p.getCodigo();
-                    datos[1] = p.getNombre();
-                    datos[2] = p.getGenero();
-                    datos[3] = p.getClasificacion();
-                    datos[4] = p.getFecha();
-                    modelo.addRow(datos);
-                }
-            }
-            grilla.setModel(modelo);
-        }
+        actualizarGrilla();
     }//GEN-LAST:event_bntfiltrarActionPerformed
 
     private void btnbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbusActionPerformed
-        cod = txtcod.getText();
-        p = a.consultarPelicula(cod);
-        if (p != null) {
-            labest.setText("Pelicula encontrada");
-            txtnom.setText(p.getNombre());
-            cbogen.setSelectedItem(p.getGenero());
-            if (p.getClasificacion().equalsIgnoreCase("Todo publico")) {
-                rbntod.setSelected(true);
-            } else {
-                if (p.getClasificacion().equalsIgnoreCase("R+15")) {
-                    rbn15.setSelected(true);
-                } else {
-                    rbn18.setSelected(true);
-                }
-            }
-            txtfec.setText(String.valueOf(p.getFecha()));
-            btneli.setEnabled(true);
-            btnmod.setEnabled(true);
-            btnreg.setEnabled(false);
-        } else {
-            labest.setText("Pelicula no encontrada");
-            txtnom.setText("");
-            cbogen.setSelectedIndex(0);
-            rbntod.setSelected(true);
-            txtfec.setText("");
-            btneli.setEnabled(false);
-            btnmod.setEnabled(false);
-            btnreg.setEnabled(true);
-            
-        }
+        validar();
     }//GEN-LAST:event_btnbusActionPerformed
 
     private void txtcodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodKeyTyped
-        if (txtcod.getText().length()>=6) {
+        if (txtcod.getText().length() >= 6) {
             evt.consume();
         }
+
+    }//GEN-LAST:event_txtcodKeyTyped
+
+    private void txtfecKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfecKeyTyped
         if (Character.isAlphabetic(evt.getKeyChar())) {
             evt.consume();
         }
-    }//GEN-LAST:event_txtcodKeyTyped
+        if (txtfec.getText().length() >= 4) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtfecKeyTyped
+
+    private void txtnomKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnomKeyTyped
+        if (!Character.isAlphabetic(evt.getKeyChar()) && !Character.isSpaceChar(evt.getKeyChar())) {
+            evt.consume();
+        }
+        if (txtnom.getText().length() >= 35) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtnomKeyTyped
+
+    private void btnregActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregActionPerformed
+        if (txtcod.getText().isEmpty() || txtcod.getText().trim().length() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Debe llenar la casilla (Codigo)");
+            return;
+        }
+        if (txtnom.getText().isEmpty() || txtnom.getText().trim().length() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Debe llenar la casilla (Nombre)");
+            return;
+        }
+        if (cbogen.getSelectedIndex() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "debe seleccionar un genero");
+            return;
+        }
+        if (rbntod.isSelected() == false) {
+            if (rbn15.isSelected() == false) {
+                if (rbn18.isSelected() == false) {
+                    javax.swing.JOptionPane.showMessageDialog(item_registro, "debe seleccionar una clasificacion");
+                    return;
+                }
+            }
+        }
+        if (txtfec.getText().trim().length() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Debe llenar la casilla (Año de Estreno)");
+            return;
+        }
+        cod = txtcod.getText();
+        nom = txtnom.getText();
+        gen = cbogen.getSelectedItem().toString();
+        if (rbntod.isSelected() == true) {
+            cla = rbntod.getText();
+        } else {
+            if (rbn15.isSelected() == true) {
+                cla = rbn15.getText();
+            } else {
+                cla = rbn18.getText();
+            }
+        }
+        fec = Integer.parseInt(txtfec.getText());
+        p = new Peliculas(cod, nom, gen, cla, fec);
+        if (a.registrarPelicula(p) == true) {
+            actualizarGrilla();
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Registro realizado con exito");
+            txtnom.setText("");
+            txtnom.setEnabled(false);
+            cbogen.setSelectedIndex(0);
+            cbogen.setEnabled(false);
+            rbntod.setSelected(false);
+            rbntod.setEnabled(false);
+            rbn15.setSelected(false);
+            rbn15.setEnabled(false);
+            rbn18.setSelected(false);
+            rbn18.setEnabled(false);
+            txtfec.setText("");
+            txtfec.setEnabled(false);
+            btneli.setEnabled(false);
+            btnmod.setEnabled(false);
+            btnreg.setEnabled(false);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Registro Erroneo");
+        }
+
+
+    }//GEN-LAST:event_btnregActionPerformed
+
+    private void txtcodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcodActionPerformed
+
+    private void btneliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliActionPerformed
+        cod = txtcod.getText();
+        if (a.eliminarPelicula(cod) == true) {
+            txtcod.setText("");
+            txtnom.setText("");
+            txtnom.setEnabled(false);
+            cbogen.setSelectedIndex(0);
+            cbogen.setEnabled(false);
+            rbntod.setSelected(false);
+            rbntod.setEnabled(false);
+            rbn15.setSelected(false);
+            rbn15.setEnabled(false);
+            rbn18.setSelected(false);
+            rbn18.setEnabled(false);
+            txtfec.setText("");
+            txtfec.setEnabled(false);
+            btneli.setEnabled(false);
+            btnmod.setEnabled(false);
+            btnreg.setEnabled(false);
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Registro eliminado");
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "no se elimino la pelicula");
+        }
+        actualizarGrilla();
+    }//GEN-LAST:event_btneliActionPerformed
+
+    private void btnmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodActionPerformed
+        if (txtnom.getText().isEmpty() || txtnom.getText().trim().length() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Debe llenar la casilla (Nombre)");
+            return;
+        }
+        if (cbogen.getSelectedIndex() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "debe seleccionar un genero");
+        }
+        if (rbntod.isSelected() == false) {
+            if (rbn15.isSelected() == false) {
+                if (rbn18.isSelected() == false) {
+                    javax.swing.JOptionPane.showMessageDialog(item_registro, "debe seleccionar una clasificacion");
+                }
+            }
+        }
+        if (txtfec.getText().trim().length() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(item_registro, "Debe llenar la casilla (Año de Estreno)");
+        }
+        String x;// se supone que deberia tomar el valor de los radiobuttons
+        for (int i = 0; i < lispel.size(); i++) {
+            p = lispel.get(i);
+            if (txtcod.getText().equalsIgnoreCase(p.getCodigo())) {
+                System.out.println("Vista.Principal.btnmodActionPerformed(t)");
+                if (rbntod.isSelected() == true) {
+                    x = rbntod.getText();
+                } else {
+                    if (rbn15.isSelected() == true) {
+                        x = rbn15.getText();
+                    } else {
+                        x = rbn18.getText();
+                    }
+                }
+                p.setCodigo(txtcod.getText());
+                p.setNombre(txtnom.getText());
+                p.setGenero(cbogen.getSelectedItem().toString());
+                p.setClasificacion(x);
+                p.setFecha(Integer.parseInt(txtfec.getText()));
+                if (a.modificarPelicula(p) == true) {
+                    txtcod.setText("");
+                    txtnom.setText("");
+                    txtnom.setEnabled(false);
+                    cbogen.setSelectedIndex(0);
+                    cbogen.setEnabled(false);
+                    rbntod.setSelected(false);
+                    rbntod.setEnabled(false);
+                    rbn15.setSelected(false);
+                    rbn15.setEnabled(false);
+                    rbn18.setSelected(false);
+                    rbn18.setEnabled(false);
+                    txtfec.setText("");
+                    txtfec.setEnabled(false);
+                    btneli.setEnabled(false);
+                    btnmod.setEnabled(false);
+                    btnreg.setEnabled(false);
+                    javax.swing.JOptionPane.showMessageDialog(item_registro, "Registro modificado");
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(item_registro, "Registro Erroneo");
+                }
+            }
+        }
+        actualizarGrilla();
+
+    }//GEN-LAST:event_btnmodActionPerformed
+
+    private void bntfiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bntfiltrarMouseClicked
+        actualizarGrilla();
+    }//GEN-LAST:event_bntfiltrarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -493,6 +812,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem item_registro;
     private javax.swing.JMenuItem item_salir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -500,9 +821,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labest;
+    private javax.swing.JLabel lablis;
+    private javax.swing.JLabel labpro;
+    private javax.swing.JLabel labtotr;
     private javax.swing.JRadioButton rbn15;
     private javax.swing.JRadioButton rbn18;
     private javax.swing.JRadioButton rbntod;

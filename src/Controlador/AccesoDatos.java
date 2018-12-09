@@ -24,8 +24,10 @@ public class AccesoDatos {
     private void desconexion(){
         try{
             con.close();
-        }catch(Exception e){
+        }catch(SQLException e){
             System.err.println("error en la desconexion con la BD");
+        }catch(Exception e){
+            
         }
     }
     
@@ -50,30 +52,7 @@ public class AccesoDatos {
         
     }
     
-    //lista las peliculas :v
-    public ArrayList<Peliculas> listarPelicula(){
-        try{
-            conexion();
-            String sql = "select * from peliculas order by fec_pel DESC";
-            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
-            st = con.createStatement();
-            rs =st.executeQuery(sql);
-            while(rs.next()){
-                String cod = rs.getString("cod_pel");
-                String nom = rs.getString("nom_pel");
-                String gen = rs.getString("gen_pel");
-                String cla = rs.getString("cla_pel");
-                int fec = rs.getInt("fec_pel");
-                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
-                lispel.add(p);
-            }
-            st.close();
-            desconexion();
-            return lispel;
-        }catch(Exception e){
-            return null;
-        }
-    }
+    
     
     //elimina las peliculas :v
     public boolean eliminarPelicula(String cod){
@@ -118,17 +97,373 @@ public class AccesoDatos {
     }
     
     //modifica una pelicula
-    public Peliculas modificarPelicula(Peliculas p){
+    public boolean modificarPelicula(Peliculas p){
         try{
             conexion();
             st = con.createStatement();
-            String sql = "update peliculas set nom_pel '"+p.getNombre()+"', gen_pel '"+p.getGenero()+"', cla_pel'"+p.getClasificacion()+"', fec_pel '"+p.getFecha()+"' where cod_pel = '"+p.getCodigo()+"' ";
-            rs = st.executeQuery(sql);
+            String sql = "update peliculas set nom_pel='"+p.getNombre()+"', gen_pel='"+p.getGenero()+"', cla_pel='"+p.getClasificacion()+"', fec_pel='"+p.getFecha()+"' where cod_pel = '"+p.getCodigo()+"' ";
+            st.execute(sql);
             st.close();
             desconexion();
-            return p;
-        }catch(Exception e){
+            return true;
+        }catch(SQLException e){
+            System.err.println("sql");
+            return false;
+        }
+    }
+    
+    
+    //lista las peliculas :v
+    public ArrayList<Peliculas> listarPelicula(){
+        try{
+            conexion();
+            String sql = "select * from peliculas;";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            st = con.createStatement();
+            rs =st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec = rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            st.close();
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }    
+    
+    public ArrayList<Peliculas> filtraracc(){//metodo para filtrar las peliculas de accion
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Accion';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
             return null;
         }
     }
+    
+    public ArrayList<Peliculas> filtrarave(){//metodo para filtrar las peliculas de aventura
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Aventura';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarani(){//metodo para filtrar las peliculas de animacion
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Animacion';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarcom(){//metodo para filtrar las peliculas de comedia
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Comedia';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrardoc(){//metodo para filtrar las peliculas de documental
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Documental';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrardram(){//metodo para filtrar las peliculas de drama
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Drama';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarrom(){//metodo para filtrar las peliculas de romance
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Romance';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarsci(){//metodo para filtrar las peliculas de Sci-fy
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Sci-fy';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarter(){//metodo para filtrar las peliculas de terror
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where gen_pel = 'Terror';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrartod(){//metodo para filtrar las peliculas para todo publico
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where cla_pel = 'Todo espectador';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtrarado(){//metodo para filtrar las peliculas para mayores de 15
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where cla_pel = 'R+15';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
+    public ArrayList<Peliculas> filtraradu(){//metodo para filtrar las peliculas para mayores de edad
+        try{
+            conexion();
+            st=con.createStatement();
+            String sql="select * from peliculas where cla_pel = 'R+18';";
+            ArrayList<Peliculas> lispel = new ArrayList<Peliculas>();
+            rs=st.executeQuery(sql);
+            while(rs.next()){
+                String cod = rs.getString("cod_pel");
+                String nom = rs.getString("nom_pel");
+                String gen = rs.getString("gen_pel");
+                String cla = rs.getString("cla_pel");
+                int fec =  rs.getInt("fec_pel");
+                Peliculas p = new Peliculas(cod,nom,gen,cla,fec);
+                lispel.add(p);
+            }
+            desconexion();
+            return lispel;
+        }catch(SQLException e1){
+            desconexion();
+            return null;
+        }catch(Exception e2){
+            desconexion();
+            return null;
+        }
+    }
+    
 }
